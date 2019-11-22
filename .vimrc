@@ -18,13 +18,14 @@ Plugin 'tpope/vim-fugitive'
 " Plugin 'L9'
 " Git plugin not hosted on GitHub
 Plugin 'git://git.wincent.com/command-t.git'
+" git repos on your local machine (i.e. when working on your own plugin)
+Plugin 'file:///home/gmarik/path/to/plugin'
 " The sparkup vim script is in a subdirectory of this repo called vim.
 " Pass the path to set the runtimepath properly.
 Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
 " Install L9 and avoid a Naming conflict if you've already installed a
 " different version somewhere else.
 " Plugin 'ascenator/L9', {'name': 'newL9'}
-
 
 
 "YouCompleteMe-----------------------------------------------------
@@ -109,11 +110,6 @@ if executable('ag')
   let g:ctrlp_use_caching = 0
 endif
 
-"vim-Powerline-----------------------------------------------
-Plugin 'Lokaltog/vim-powerline'
-set laststatus=2 " Always display the status line
-set statusline+=%{fugitive#statusline()} "  Git Hotness
-
 
 
 
@@ -121,12 +117,11 @@ set statusline+=%{fugitive#statusline()} "  Git Hotness
 Plugin 'vim-syntastic/syntastic'
 " configure syntastic syntax checking to check on open as well as save
 let g:syntastic_check_on_open=0
-let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute \"ng-"]
-let g:syntastic_python_checker=['pyflakes', 'pep8', 'mccabe']
+let g:syntastic_python_checker=['flake8']
 let g:syntastic_python_checker_args='--ignore=E501'
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
-let g:syntastic_auto_jump = 1
+let g:syntastic_auto_jump = 0
 let g:syntastic_check_on_wq = 0
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
@@ -180,7 +175,7 @@ Plugin 'vim-scripts/indentpython.vim'
 
 "python-mode----------------------------------------------------
 Plugin 'python-mode/python-mode', { 'branch': 'develop' }
-let g:pymode = 0
+let g:pymode = 1
 let g:pymode_python = 'python3'
 let g:pymode_trim_whitespaces = 1
 let g:pymode_options = 1
@@ -201,6 +196,12 @@ Plugin 'fatih/vim-go'
 Plugin 'Blackrush/vim-gocode'
 
 
+"" StatusLine-----------------------------------------------------
+Plugin 'itchyny/lightline.vim'
+
+
+
+
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -215,9 +216,6 @@ filetype plugin indent on    " required
 "
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
-
-
-
 
 
 
@@ -250,10 +248,14 @@ au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
 nnoremap <space> za
 let g:SimpylFold_docstring_preview=1
 
-"scheme-------------------------------
-set background=dark
-colorscheme solarized
+" theme
 let g:rehash256 = 1
+set t_Co=256
+set laststatus=2
+let g:lightline = {
+      \ 'colorscheme': 'wombat',
+      \ }
+colorscheme onehalfdark
 
 syntax enable
 syntax on
