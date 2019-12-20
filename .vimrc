@@ -17,9 +17,9 @@ Plugin 'tpope/vim-fugitive'
 " plugin from http://vim-scripts.org/vim/scripts.html
 " Plugin 'L9'
 " Git plugin not hosted on GitHub
-Plugin 'git://git.wincent.com/command-t.git'
+Plugin 'wincent/command-t'
 " git repos on your local machine (i.e. when working on your own plugin)
-Plugin 'file:///home/gmarik/path/to/plugin'
+" Plugin 'file:///home/gmarik/path/to/plugin'
 " The sparkup vim script is in a subdirectory of this repo called vim.
 " Pass the path to set the runtimepath properly.
 Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
@@ -61,23 +61,13 @@ let NERDTreeChDirMode=2
 let NERDTreeShowBookmarks=1
 let NERDTreeWinPos="left"
 " Automatically open a NERDTree if no files where specified
-autocmd vimenter * if !argc() | NERDTree | endif
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 " Close vim if the only window left open is a NERDTree
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 " Open a NERDTree
 nmap <F2> :NERDTreeToggle<cr>
-let g:NERDTreeIndicatorMapCustom = {
-    \ "Modified"  : "✹",
-    \ "Staged"    : "✚",
-    \ "Untracked" : "✭",
-    \ "Renamed"   : "➜",
-    \ "Unmerged"  : "═",
-    \ "Deleted"   : "✖",
-    \ "Dirty"     : "✗",
-    \ "Clean"     : "✔︎",
-    \ 'Ignored'   : '☒',
-    \ "Unknown"   : "?"
-    \ }
+
 
 
 "TagBar----------------------------------------------------------------
@@ -137,6 +127,21 @@ autocmd FileType html,css,php,htmldjango EmmetInstall
 "let g:user_emmet_leader_key='<C-Z>'
 
 
+" React ---------------------------------------------------------------
+Plugin 'pangloss/vim-javascript'
+Plugin 'mxw/vim-jsx'
+
+" Typescript ----------------------------------------------------
+Plugin 'leafgarland/typescript-vim'
+"let g:typescript_indent_disable = 1
+let g:typescript_compiler_binary = 'tsc'
+let g:typescript_compiler_options = ''
+" autocmd FileType typescript :set makeprg=tsc
+
+" ES6 --------------------------------------------------------------
+Plugin 'isRuslan/vim-es6'
+
+
 
 "commentary------------------------------------------------------
 Plugin 'tpope/vim-commentary'
@@ -150,7 +155,7 @@ inoremap <c-a> <esc>la
 inoremap <c-A> <esc>la
 "pydiction----------------------------------------------------
 Plugin 'rkulla/pydiction'
-let g:pydiction_location = '~/.vim/tools/pydiction/complete-dict'
+let g:pydiction_location = '~/.vim/bundle/pydiction/complete-dict'
 let g:pydiction_menu_height = 3
 autocmd FileType python set omnifunc=pythoncomplete#Complete
 
